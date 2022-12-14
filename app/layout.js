@@ -1,13 +1,15 @@
 "use client"
-import "../styles/globals.css";
+import { BrowserRouter } from "react-router-dom";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="eng">
+    <html lang="en">
         <head></head>
-          <body>
-            {children}
-          </body>
+          <BrowserRouter>
+            <body>
+                {children}
+            </body>
+          </BrowserRouter>
     </html>
   );
 }

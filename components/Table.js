@@ -8,8 +8,6 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import { useStore } from "../store/store.js";
-import { URLSearchParams } from "next/dist/compiled/@edge-runtime/primitives/url.js";
-import { useEffect } from "react";
 
 export default function WordsTable({wordsList}){
   
@@ -25,9 +23,6 @@ export default function WordsTable({wordsList}){
     console.log(params);
   }
 
-  useEffect(()=>{
-    console.log(store.starredWords);
-  })
     return (
         <TableContainer component={Paper} sx={{ margin: "20px" }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -67,7 +62,7 @@ export default function WordsTable({wordsList}){
                       <TableCell key={word.id} align="left">
                         <Stack direction="row" spacing={1}>
                           {word.tags?.map((tag) =>
-                            tag.includes("results_type:") ? (
+                            tag.includes("results_type:") ? 
                               <Chip
                                 key={tag.id}
                                 label={tag.replace("results_type:", '')}
@@ -78,13 +73,12 @@ export default function WordsTable({wordsList}){
                                   fontWeight: "bold",
                                 }}
                               />
-                            ) : (
+                             : 
                               <Chip
                                 key={tag.id}
                                 label={tag}
                                 variant="outlined"
                               />
-                            )
                           )}
                         </Stack>
                       </TableCell>

@@ -14,9 +14,9 @@ import WordsTable from "../../components/Table.js"
 import { useRouter } from "next/navigation";
 
 
-const queryClient = new QueryClient()
+// const queryClient = new QueryClient()
 
-function WordsPage(props) {
+export default function WordsPage(props) {
   const router = useRouter()
   const store = useStore();
   const query = props.searchParams.query
@@ -89,6 +89,7 @@ function WordsPage(props) {
   };
 
   return (
+   
         <div style={{ marginRight: "15px", marginLeft: "15px", marginTop: "10px" }}>
           <div style={{display: "flex", flexDirection: "column", lineHeight: "1.5", justifyContent: "center", alignItems: "center", flexWrap: "wrap", gap: "5px"}}>
             <FormControl>
@@ -150,14 +151,14 @@ function WordsPage(props) {
 }
 
 
-// Higher order function
-const hof = (WrappedComponent) => {
-  // Its job is to return a react component warping the baby component
-  return (props) => (
-      <QueryClientProvider client={queryClient}>
-          <WrappedComponent {...props} />
-      </QueryClientProvider>
-  );
-};
+// // Higher order function
+// const hof = (WrappedComponent) => {
+//   // Its job is to return a react component warping the baby component
+//   return (props) => (
+//       <QueryClientProvider client={queryClient}>
+//           <WrappedComponent {...props} />
+//       </QueryClientProvider>
+//   );
+// };
 
-export default hof(WordsPage);
+// export default hof(WordsPage);

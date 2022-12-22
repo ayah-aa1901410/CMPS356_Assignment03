@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import {useState, useEffect, useTransition} from "react"
 import { Button } from "@mui/material";
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 import WordsTable from "../../components/Table.js"
 import { useRouter } from "next/navigation";
 

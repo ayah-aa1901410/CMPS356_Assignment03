@@ -74,11 +74,11 @@ export default function WordsPage(props) {
   }
 
   async function fetchWords(word){
-    return await fetch(`http://api.datamuse.com/words?ml=${word}`, {cache: 'no-store'}).then(res => res.json());
+    return await fetch(`https://api.datamuse.com/words?ml=${word}`, {cache: 'no-store'}).then(res => res.json());
   }
   
   async function fetchSuggestions (word){
-    return await fetch(`http://api.datamuse.com/sug?s=${word}`, {cache: 'no-store'}).then(res => res.json());
+    return await fetch(`https://api.datamuse.com/sug?s=${word}`, {cache: 'no-store'}).then(res => res.json());
   }
 
   const clearQuery = () => {

@@ -9,29 +9,44 @@ import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import {useState, useEffect, useTransition} from "react"
 import { Button } from "@mui/material";
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import { useSearchParams, BrowserRouter, Router} from "react-router-dom"
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import WordsTable from "../../components/Table.js"
+import { useRouter } from "next/navigation";
 
 
 const queryClient = new QueryClient()
 
-function WordsPage() {
-
+function WordsPage(props) {
+  const router = useRouter()
   const store = useStore();
-  const [searchParams, setSearchParams] = useSearchParams()
+  const query = props.searchParams.query
+  console.log(query);
+  const [searchInput, setSearchInput] = useState("")
+
   const [highlight, setHighlight] = useState("");
   const [isPending, startTransition] = useTransition()
   const remove = useStore((state) => state.remove)
-  // store.query = searchParams.get("query") || ""
 
   useEffect(()=>{
-    if(searchParams.get("query")){
-      store.setQuery(searchParams.get("query"))   
+    if(query != undefined){
+      store.setQuery(query)
     }else{
-      store.setQuery("")   
+      store.setQuery("")
     }
-  }, [searchParams])
+  }, [query])
+
+  useEffect(()=>{
+    if(searchInput){
+      window.history.replaceState("","",`/words?query=${searchInput}`)
+      // router.push(
+      //   {pathname: '/words',
+      //   query: {query: searchInput}}
+      //   , undefined, { shallow: true }
+      // )
+    }else{
+      router.push('/words')
+    }
+  }, [searchInput])
 
 
   const wordsList = useQuery({ queryKey: ['words', store.query], queryFn: ()=> fetchWords(store.query) });
@@ -39,22 +54,23 @@ function WordsPage() {
   const suggestsList= useQuery({ queryKey: ['suggestions', store.query], queryFn: ()=> fetchSuggestions(store.query) });
 
   const queryChange = async(event) => {
+    event.preventDefault()
     store.setSuggestWord(event.target.value);
     store.setSuggests(suggestsList.data);
     store.setQuery(event.target.value);
     store.setWords(wordsList.data);
     startTransition(() => setHighlight(event.target.value))
     if(event.target.value != ""){
-      setSearchParams({query: event.target.value})
-    }else{
-      setSearchParams({})
+      setSearchInput(event.target.value)
+    }
+    else{
+      setSearchInput("")
     }
     
   };
 
   const removeWord = (params) => {
     remove(params)
-    console.log(params);
   }
 
   async function fetchWords(word){
@@ -69,7 +85,7 @@ function WordsPage() {
     store.setQuery("");
     store.setSuggestWord('u');
     store.setWords([]);
-    setSearchParams({})
+    router.push('/words')
   };
 
   return (
@@ -132,6 +148,7 @@ function WordsPage() {
         </div>
   );
 }
+
 
 // Higher order function
 const hof = (WrappedComponent) => {
